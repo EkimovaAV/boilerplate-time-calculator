@@ -4,7 +4,7 @@
 optional starting day of the week parameter должен выводить день в который мы перенеслись
 polovina= pm or am
 '''
-def add_time(start, duration):
+def add_time(start, duration, d=None):
     polovina=start.split()[1]
 
 
@@ -20,17 +20,21 @@ def add_time(start, duration):
         sec%=60
     if sec<10:
         sec='0'+str(sec)
+        #00
     if chas >=24:
         n = chas // 24
-        chas%= 24
+        chas%= 12
+        if n==1:
+            return f"{chas}:{sec} {polovina} (next day)"
         return f"{chas}:{sec} {polovina} ({n} days later)"
-    if chas> 15:
         chas-=chas-12
-    if chas >=12:
-
-
-        polovina='PM'
-
+    if chas >= 12:
+        if polovina=='PM':
+            polovina='AM'
+        else:
+            polovina='PM'
+    if chas>12:
+        chas-=12
 
 
     new_time=f"{chas}:{sec} {polovina}"
